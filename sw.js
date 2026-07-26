@@ -1,5 +1,5 @@
 /* 연애 유형 진단소 SW — 페이지는 네트워크 우선(수정 즉시 반영), 아이콘 등은 캐시 우선 */
-const CACHE = 'love-type-v1';
+const CACHE = 'love-type-v27';
 const ASSETS = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', e => {
