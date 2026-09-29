@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- 연애 유형 진단소(Type Readings): 19문항 3축 진단, 사주·MBTI 심화 리딩, 궁합, 보관함. 화면·스타일·로직·데이터를 이 파일 하나에 담았다 -->
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
@@ -298,6 +299,7 @@ const RECQ=[
 ];
 /* 오행 */
 const ELEM={'목':'--e-mok','화':'--e-hwa','토':'--e-to','금':'--e-geum','수':'--e-su'};
+// 오행 색 네모 아이콘 HTML
 function esq(el){return '<span class="esq" style="background:var('+ELEM[el]+')"></span>';}
 /* 8유형: key = 표현·온도·판단 (1=앞성향) */
 const TYPES={
@@ -350,6 +352,7 @@ const TYPES={
  t:['무뚝뚝해 보여도 약속과 기억은 여덟 유형 중 가장 정확해요','좀처럼 화내지 않지만 신뢰가 깨지는 순간에는 가장 단호해져요','익숙해지면 의외의 장난기와 능청 유머가 튀어나와요','변화를 꺼리는 듯해도 확신이 서면 누구보다 과감하게 결정해요'],
  m:['꿀조합: 제4유형 든든 매니저 — 표현 속도만 다를 뿐 신뢰의 언어가 같아요','거울조합: 신뢰 적금러끼리 — 세상 평온해요, 단 먼저 다가갈 역할을 정해두세요','무난조합 팁: 불꽃 유형의 잦은 표현을 \'재촉\'이 아닌 \'애정\'으로 번역해보세요','환장조합: 제1유형 불도저 로맨티스트 — 서로에게 없는 것을 배우는 조합이에요']}}
 };
+// 유형 카드 네 칸의 제목
 const CATN={p:'평소 성격',l:'연애 스타일',t:'반전 포인트',m:'잘 어울리는 유형'};
 /* A/T 양면 서술 */
 /* 정서 안정도(A/T) 읽기 — 퍼센티지 + 일주(일간·배우자궁 오행 관계)를
@@ -366,6 +369,7 @@ function atRelFlavor(sj){
  if(rel==='A_geuk_B')return '일주로 보면 일간이 배우자궁(일지)을 극(剋)하는 관계라, 감정을 눌러두었다가 한 번에 터뜨리는 경향이 있을 수 있어요.';
  return '일주로 보면 배우자궁(일지)이 일간을 극(剋)하는 관계라, 관계 안의 크고 작은 긴장이 감정 기복의 자극제가 되기 쉬워요.';
 }
+// 정서 안정도(A/T) 퍼센트로 밝은 면·그림자 양면 서술을 만든다. 40~60%는 기운 방향까지 말하는 중립으로 본다
 function atReading(pct,sj){
  const flavor=atRelFlavor(sj);
  if(pct>=60)return{name:'T(격동) 성향 우세',
@@ -381,6 +385,7 @@ function atReading(pct,sj){
 }
 /* 일간(10천간) 해석, 사주가 말하는 나의 연애 성향 */
 const DSCATN={p:'타고난 기질',l:'사랑에서 드러나는 모습',t:'관계 속 반전',m:'관계에서 유의할 점'};
+// 일간(10천간)별 연애 성향 해석 데이터
 const DAYSTEM={
  갑:{name:'갑목(甲)',catch:'"우직한 대들보, 방향은 하나"',
  rd:{p:['한번 정한 방향은 웬만해선 바꾸지 않는 곧은 뚝심이 있어요','무리 안에서 자연스럽게 중심을 잡는 역할을 맡게 되는 편이에요','스트레스는 몸을 움직이거나 새로운 목표를 세우며 풀어요','숨은 강점은 <b>정직함이에요</b>. 겉과 속이 다르지 않아 함께 있으면 편안한 사람이에요'],
@@ -436,6 +441,7 @@ const DAYSTEM={
 /* 사주 8글자 안에서 가장 많은/적은 성향 해석(2026-07-26 재개편), 쉬운 말로,
    고정 임계값이 아니라 "이 사주 안에서 상대적으로" 많은지 적은지로 판단 */
 const SIBGROUP_LABEL={비겁:'주체성',식상:'표현력',재성:'현실 감각',관성:'책임감',인성:'수용력'};
+// 십성 그룹별 "많을 때(over)·적을 때(under)" 해석 문장
 const SIBGROUP_TXT={
  비겁:{over:'내 뜻대로 이끌어가려는 주체성이 강해요. 관계에서도 확실한 자기 색깔을 갖고 있어요. 다만 그만큼 고집이 세게 비칠 수 있으니, 상대의 의견에도 자리를 내주는 연습이 필요해요.',
       under:'자기 주장보다 상대에게 맞추는 게 편한 편이에요. 관계가 유연하고 부드러워요. 다만 내 몫의 의견도 가끔은 분명히 챙겨야 관계가 한쪽으로 기울지 않아요.'},
@@ -799,25 +805,31 @@ const OHANG_TXT={
  A_geuk_B:'나의 오행이 상대를 극(剋)하는 관계예요. 내가 상대에게 자극과 긴장을 주는 흐름이라, 그 팽팽함이 오히려 묘하게 끌리는 힘이 되기도 해요. 다만 그 자극이 부딪힘으로만 흐르지 않도록, 내 뜻대로 이끌려는 마음을 조금 눌러두면 좋아요.',
  B_geuk_A:'상대의 오행이 나를 극(剋)하는 관계예요. 상대가 나에게 자극과 긴장을 주는 흐름이라, 그 긴장감이 오히려 묘하게 끌리는 힘이 되기도 해요. 다만 눌리기만 하지 않도록, 내 의견도 분명히 표현하는 연습이 필요해요.'
 };
+// 배우자궁(일지) 궁합 판정용 지지 육합·육충 짝
 const JIHAP_PAIRS=[[0,1],[2,11],[3,10],[4,9],[5,8],[6,7]];
 const JICHUNG_PAIRS=[[0,6],[1,7],[2,8],[3,9],[4,10],[5,11]];
+// 지지 관계(합·충·그 밖)별 궁합 문장
 const JI_REL_TXT={
  hap:'두 사람의 배우자궁(일지)이 합(合)을 이루는 자리예요. 명리학에서 전통적으로 좋은 인연의 신호로 보는 조합으로, 서로에게 자연스럽게 끌리고 함께 있으면 잘 맞는다는 느낌을 받기 쉬워요.',
  chung:'두 사람의 배우자궁(일지)이 충(沖)을 이루는 자리예요. 서로 다른 방향으로 끌어당기는 힘이 있어서 초반엔 자석처럼 강하게 끌릴 수 있지만, 그만큼 부딪힘도 잦을 수 있는 조합이에요. 다름을 인정하는 대화가 특히 중요해요.',
  none:'두 사람의 배우자궁(일지)은 합도 충도 아닌 무난한 자리예요. 극적인 끌림도 극적인 충돌도 아닌, 자연스럽게 서로의 속도로 알아가는 편안한 조합이에요.'
 };
+// 음양 방향 비교별 궁합 문장
 const YY_TXT={
  sameDir:'두 사람 모두 음양의 기운이 같은 방향으로 뚜렷해요. 서로의 리듬과 속도가 잘 맞아 편안하지만, 같은 상황에서 같은 반응을 보이다 보니 균형을 잡아줄 사람이 없을 수 있어요.',
  oppositeDir:'한 사람은 양(陽), 다른 한 사람은 음(陰)의 기운이 뚜렷해서 서로 정반대예요. 부족한 부분을 자연스럽게 채워주는 보완 관계가 되기 쉽지만, 처음엔 서로의 속도 차이가 낯설게 느껴질 수 있어요.',
  mixed:'음양의 쏠림이 강하지 않아 무난하게 섞이는 조합이에요. 극적인 보완도 극적인 충돌도 아닌, 상황에 따라 유연하게 맞춰갈 수 있는 사이예요.'
 };
+// 십성 그룹이 서로 채워 주는 짝 (내가 많은 그룹 → 상대에게 있으면 좋은 그룹)
 const COMPLEMENT_GROUP={비겁:'관성',식상:'인성',재성:'비겁',관성:'식상',인성:'재성'};
+// 십성 그룹 상호보완 여부별 궁합 문장
 const COMP_TXT={
  mutual:'내가 필요로 하는 기운을 상대가 갖고 있고, 상대가 필요로 하는 기운도 내가 갖고 있어요. 서로가 서로에게 정확히 필요한 걸 채워주는, 십성 궁합상 가장 이상적인 조합 중 하나예요.',
  oneway:'한쪽이 필요로 하는 기운을 다른 한쪽이 갖고 있는 조합이에요. 한쪽은 확실히 도움을 받지만, 반대 방향으로는 그만큼의 보완이 없을 수 있어요. 받기만 하는 쪽이 되지 않도록 서로 챙기는 노력이 필요해요.',
  same:'두 사람의 사주에서 가장 두드러진 기운이 같아요. 비슷한 성향이라 이해가 빠르지만, 서로에게 부족한 부분을 채워주기보다 같은 부분에서 함께 헤맬 수 있어요.',
  none:'서로 다른 기운이 두드러지지만 직접적인 보완 관계는 아니에요. 각자의 색깔이 뚜렷한 조합으로, 무리해서 맞추기보다 다름을 있는 그대로 존중하는 게 관계의 핵심이에요.'
 };
+// 십성 그룹 분포에서 이 사주 안에서 상대적으로 가장 많은·적은 그룹을 짚는 문장을 만든다
 function sibGroupAnalysis(groupCnt){
  /* 고정 임계값이 아니라 "이 사주 8글자 안에서" 상대적으로 가장 많은/적은
     성향을 항상 짚어준다. 전부 같을 때만 "고르게 분포"로 처리 */
@@ -840,6 +852,7 @@ const JI=['자','축','인','묘','진','사','오','미','신','유','술','해
 const JIH='子丑寅卯辰巳午未申酉戌亥';
 const GEL=['목','목','화','화','토','토','금','금','수','수'];
 const JEL={'자':'수','축':'토','인':'목','묘':'목','진':'토','사':'화','오':'화','미':'토','신':'금','유':'금','술':'토','해':'수'};
+// 양력 날짜를 율리우스 적일(JDN)로 바꾼다 (일주 계산용)
 function jdn(y,m,d){const a=Math.floor((14-m)/12),y2=y+4800-a,m2=m+12*a-3;
  return d+Math.floor((153*m2+2)/5)+365*y2+Math.floor(y2/4)-Math.floor(y2/100)+Math.floor(y2/400)-32045;}
 function ymdFromJdn(J){ /* jdn()의 역함수 */
@@ -859,6 +872,7 @@ function nearHourBoundary(mins){ /* 지방시 보정 후 시진 경계(KST 기�
  const marks=[90,210,330,450,570,690,810,930,1050,1170,1290,1410];
  return marks.some(mk=>Math.abs(mins-mk)<=15);
 }
+// 생년월일시로 사주 4기둥(연·월·일·시주)과 오행 개수를 계산한다. 절기는 근사, 지방시는 전국 일괄 보정
 function saju(y,m,d,mins){ /* mins: 그날 0~1439(KST, 시*60+분) 또는 null(시각 모름) */
  let ey=y,em=m,ed=d, hj=null,hg=null,corrMin=null;
  if(mins!==null){
@@ -890,8 +904,10 @@ function saju(y,m,d,mins){ /* mins: 그날 0~1439(KST, 시*60+분) 또는 null(�
    오(午)의 기토, 해(亥)의 무토 포함 여부 등은 문헌마다 이견이 있어
    "간이 계산" 범주로 취급. 정기(배열 마지막 원소)만 십성 판단에 사용. */
 const JIJANGGAN=[[8,9],[9,7,5],[4,2,0],[0,1],[1,9,4],[4,6,2],[2,5,3],[3,1,5],[4,8,6],[6,7],[7,3,4],[4,0,8]];
+// 오행 상생(내가 낳는 것)·상극(내가 이기는 것) 관계표
 const SIB_SAENG={목:'화',화:'토',토:'금',금:'수',수:'목'};
 const SIB_KE={목:'토',화:'금',토:'수',금:'목',수:'화'};
+// 일간 기준으로 다른 천간의 십성 이름을 구한다
 function sibsung(dayGanIdx,otherGanIdx){
  const dEl=GEL[dayGanIdx], oEl=GEL[otherGanIdx];
  const same=(dayGanIdx%2)===(otherGanIdx%2);
@@ -901,6 +917,7 @@ function sibsung(dayGanIdx,otherGanIdx){
  if(SIB_KE[dEl]===oEl) return same?'편재':'정재';
  return same?'편관':'정관';
 }
+// 십성 이름을 다섯 그룹(비겁·식상·재성·관성·인성)으로 묶는다
 function sibsungGroup(name){
  if(name==='비견'||name==='겁재')return '비겁';
  if(name==='식신'||name==='상관')return '식상';
@@ -908,6 +925,7 @@ function sibsungGroup(name){
  if(name==='편관'||name==='정관')return '관성';
  return '인성';
 }
+// 사주 여덟 자리(지지는 지장간까지)의 십성 목록을 만든다
 function sibsungSlots(sj){
  /* 지지는 지장간(여기·중기·정기)을 전부 반영, 한 글자(정기)만 볼 때보다
     사주팔자 전체 안에서의 많고 적음을 훨씬 온전하게 판단할 수 있다 */
@@ -919,11 +937,13 @@ function sibsungSlots(sj){
  if(sj.pillars[3]){ add('시간',sj.pillars[3].g); JIJANGGAN[sj.pillars[3].j].forEach(gi=>add('시지',gi)); }
  return slots;
 }
+// 사주 안의 양·음 글자 수를 센다
 function yinYangBalance(sj){
  let yang=0,eum=0;
  sj.pillars.forEach(p=>{ (p.g%2===0)?yang++:eum++; (p.j%2===0)?yang++:eum++; });
  return {yang,eum};
 }
+// 음양 비율 문장 (비율을 먼저 쓰고 해석을 붙인다)
 function yinYangText(sj){
  const {yang,eum}=yinYangBalance(sj); const total=yang+eum;
  if(yang/total>=0.7)return '양(陽)의 기운이 뚜렷하게 많아요. 적극적이고 외향적인 에너지가 강해서, 연애에서도 능동적으로 이끌어가는 힘이 커요.';
@@ -938,25 +958,30 @@ function ohangRel(elA,elB){
  if(SIB_KE[elA]===elB)return 'A_geuk_B';
  return 'B_geuk_A';
 }
+// 두 지지가 육합인지 육충인지 판정한다
 function jiRelation(jiA,jiB){
  if(JIHAP_PAIRS.some(p=>(p[0]===jiA&&p[1]===jiB)||(p[0]===jiB&&p[1]===jiA)))return 'hap';
  if(JICHUNG_PAIRS.some(p=>(p[0]===jiA&&p[1]===jiB)||(p[0]===jiB&&p[1]===jiA)))return 'chung';
  return 'none';
 }
+// 사주 전체가 양·음 어느 쪽으로 기우는지
 function yinYangClass(sj){
  const {yang,eum}=yinYangBalance(sj); const t=yang+eum;
  if(yang/t>=0.7)return 'yang'; if(eum/t>=0.7)return 'eum'; return 'mix';
 }
+// 십성 그룹별 개수
 function groupCntOf(sj){
  const cnt={비겁:0,식상:0,재성:0,관성:0,인성:0};
  sibsungSlots(sj).forEach(s=>cnt[s.g]++);
  return cnt;
 }
+// 개수가 가장 많은 십성 그룹
 function topGroupOf(cnt){
  const vals=['비겁','식상','재성','관성','인성'];
  const cnts=vals.map(g=>cnt[g]);
  return vals[cnts.indexOf(Math.max(...cnts))];
 }
+// 두 사람의 최다 그룹이 서로 채워 주는 관계인지 판정한다
 function complementCheck(topA,topB){
  const aNeedsB=COMPLEMENT_GROUP[topA]===topB, bNeedsA=COMPLEMENT_GROUP[topB]===topA;
  if(aNeedsB&&bNeedsA)return 'mutual';
@@ -964,6 +989,7 @@ function complementCheck(topA,topB){
  if(topA===topB)return 'same';
  return 'none';
 }
+// 사주 궁합: 일간 오행 상생상극, 배우자궁 합충, 음양 비교, 십성 상호보완 네 축으로 서술한다
 function sajuCompat(sjA,sjB){
  const rel=ohangRel(sjA.dayEl,sjB.dayEl);
  const jiRel=jiRelation(sjA.pillars[2].j,sjB.pillars[2].j);
@@ -1028,6 +1054,7 @@ function mbtiStrengthOf(i,sl){ /* 해당 축 힌트를 만든 지표의 우세 %
 const THEME_KEY='loveTypeThemeV1';
 const ICON_SUN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.3"/><path d="M12 2.3v2.6M12 19.1v2.6M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2.3 12h2.6M19.1 12h2.6M4.2 19.8l1.8-1.8M18 6l1.8-1.8"/></svg>';
 const ICON_MOON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.2 14.4A8.5 8.5 0 1 1 9.6 3.8a7 7 0 0 0 10.6 10.6Z"/></svg>';
+// 적용할 테마. 저장된 값이 없으면 시스템 설정과 무관하게 항상 라이트
 function effectiveTheme(){
  /* 시스템 다크모드를 따라가지 않고 항상 라이트를 기본값으로
     시작한다(2026-07-27 사용자 피드백) — 사용자가 헤더의 토글로
@@ -1036,6 +1063,7 @@ function effectiveTheme(){
  if(saved)return saved;
  return 'light';
 }
+// 테마를 적용하고 헤더 토글 아이콘(해·달)을 바꾼다
 function applyTheme(t){
  document.documentElement.setAttribute('data-theme',t);
  const btn=document.getElementById('themeToggle');
@@ -1055,11 +1083,13 @@ document.getElementById('themeToggle').onclick=()=>{
 };
 /* ══════════ 상태 ══════════ */
 const KEY='loveTypeV1', AKEY='loveTypeArcV1';
+// 진단·궁합 진행 상태 (sessionStorage에 저장, 앱을 끄면 초기화)
 let S={tab:0, step:'intro', qi:0, ans:[], fb:null,
   deep:{y:1998,mo:1,d:1,hKnown:false,hh:0,mm:0,EI:50,SN:50,TF:50,JP:50,AT:50},
   rec:null, recAns:{}, final:null, cmpA:'111', cmpB:'000', cmpAAuto:true, cmpShow:false, arcView:null,
   cmpPB:{y:1998,mo:1,d:1,hKnown:false,hh:0,mm:0}, cmpMB:{y:1998,mo:1,d:1,hKnown:false,hh:0,mm:0}, cmpSajuShow:false,
   cmpTypeOpen:false, cmpSajuOpen:false};
+// 보관함에 저장한 결과 목록 (localStorage에 저장, 계속 유지)
 let ARC=[];
 /* 진단·궁합 진행 상태(S)는 sessionStorage에 저장 — 탭/앱을 완전히 종료하면
    비워지고, 잠깐 다른 앱을 보고 돌아오는 정도(브라우징 세션 유지)로는
@@ -1069,10 +1099,13 @@ let ARC=[];
 try{localStorage.removeItem(KEY);}catch(e){} /* 예전 버전이 localStorage에 남긴 값 정리 */
 try{const s=sessionStorage.getItem(KEY); if(s){const p=JSON.parse(s); if(p&&p.ans)S=Object.assign(S,p);}
  const a=localStorage.getItem(AKEY); if(a)ARC=JSON.parse(a)||[];}catch(e){}
+// 진행 상태를 저장한다 / 보관함을 저장한다
 function save(){try{sessionStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
 function saveArc(){try{localStorage.setItem(AKEY,JSON.stringify(ARC));return true;}catch(e){return false;}}
 const toastEl=document.getElementById('toast'); let tt;
+// 화면 아래에 잠깐 뜨는 안내 메시지
 function toast(m){toastEl.textContent=m;toastEl.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>toastEl.classList.remove('show'),2200);}
+// 브라우저 confirm 대신 쓰는 확인 창. "확인"을 누르면 onYes를 부른다
 function customConfirm(msg,onYes){
  const ov=document.createElement('div');ov.className='cf-overlay';
  ov.innerHTML='<div class="cf-box"><p>'+esc(msg)+'</p><div class="btnrow"><button class="btn" id="cfNo">취소</button><button class="btn danger" id="cfYes">확인</button></div></div>';
@@ -1082,20 +1115,25 @@ function customConfirm(msg,onYes){
  ov.querySelector('#cfYes').onclick=()=>{ov.remove();onYes();};
 }
 /* ══════════ 채점 ══════════ */
+// 축 하나의 점수 합 (앞성향 1, 중간 0.5, 뒷성향 0)
 function axisScore(ax){let s=0;QS.forEach((q,i)=>{if(q.ax===ax&&S.ans[i]!==undefined)s+=[1,0.5,0][S.ans[i]];});return s;}
+// 축 점수로 방향 판정 (3 이상 앞, 2 이하 뒤, 2.5는 스위치형)
 function axisDir(sc){return sc>=3?1:(sc<=2?0:'sw');}
+// 19문항 답만으로 낸 빠른 결과 (축별 점수·방향·유형 키)
 function quickResult(){
  const sc=[axisScore(0),axisScore(1),axisScore(2)];
  const dir=sc.map(axisDir);
  const disp=dir.map(d=>d==='sw'?1:d); /* 표시용: 스위치는 앞성향 카드로 */
  return {sc,dir,key:disp.join(''),switchAxes:dir.map((d,i)=>d==='sw'?i:null).filter(v=>v!==null)};
 }
+// 답변 패턴에서 시그널 4종을 뽑는다
 function signals(){
  const out=[];
  QS.forEach((q,i)=>{ if(typeof q.ax==='string'&&S.ans[i]!==undefined){
    if(S.ans[i]===0)out.push(SIGS[q.ax].a); if(S.ans[i]===2)out.push(SIGS[q.ax].b);}});
  return out;
 }
+// 중간 답을 고른 비율로 유연성 안내 문구를 만든다
 function flexNote(){
  const mid=S.ans.filter(v=>v===1).length;
  return mid>=8?'상황 적응형이에요. 중간 응답이 많아, 상황에 따라 유연하게 움직이는 성향이 함께 감지됐어요.':null;
@@ -1145,6 +1183,7 @@ function resolveAxis(i, bDir, bScore, mH, sH, recAns, mStr){
    return {dir:null,status:'rec',needRec:true,lines:L};
  }
 }
+// 심화 리딩 판정 엔진: 행동(문항)·후천(MBTI)·선천(사주) 근거를 축마다 모아 최종 방향을 정한다
 function runEngine(withRec){
  const qr=quickResult();
  const sj=saju(S.deep.y,S.deep.mo,S.deep.d,S.deep.hKnown?(S.deep.hh*60+S.deep.mm):null);
@@ -1166,11 +1205,13 @@ function runEngine(withRec){
  return {qr,sj,res,need};
  function withRecDone(){return Object.keys(S.recAns).length>0;}
 }
+// 축별 판정 상태로 종합 등급(탐색형 등)과 설명을 정한다
 function gradeOf(res){
  if(res.some(r=>r.status==='explore'))return ['탐색형','지금은 스스로를 알아가는 구간이에요. 소스들이 서로 다른 이야기를 하는 건, 그만큼 <b>여러 모습을 가졌다는 뜻</b>이기도 해요.'];
  if(res.every(r=>r.status==='agree'))return ['일관형','선천·후천·행동이 <b>같은 방향을 가리켜요</b>. 스스로에 대한 감각이 꽤 정확한 편이에요.'];
  return ['발화형','타고난 기질과 지금 드러난 모습이 <b>조금 다른 축</b>이 있어요. 살아온 시간이 만든 변화예요. 그것도 나의 일부예요.'];
 }
+// 종합 결과 문단: 행동·사주·MBTI 결과를 한 문단으로 이어 쓴다
 function synthesisText(key,gdesc,sj,D){
  const T=TYPES[key], DS=DAYSTEM[GAN[sj.dayGan]];
  const groupCnt={비겁:0,식상:0,재성:0,관성:0,인성:0};
@@ -1179,6 +1220,7 @@ function synthesisText(key,gdesc,sj,D){
  return gdesc+'<br><br>여기에 사주를 더하면, <b>'+DS.name+'</b> 일간의 기운과 사주 전체에서 가장 두드러진 <b>'+SIBGROUP_LABEL[topGroup]+'</b>이 \''+T.name+'\'다운 모습의 밑바탕이 되어주고 있어요.<br><br>'+
    'MBTI 지표에서도 <b>'+domPct('EI',D.EI)+' · '+domPct('TF',D.TF)+'</b> 성향이 뚜렷하게 발화되고 있어서, 행동·사주·MBTI 세 가지 시선이 결국 비슷한 결론으로 모이는 셈이에요.';
 }
+// MBTI × 사주 문단: 축별 판정 근거가 같은 방향인지 다시 읽어 준다
 function mbtiSajuFusionText(res){
  /* MBTI(후천)와 사주(선천)가 축별로 실제로 같은 방향인지, 다른 방향인지를
     판정근거(res[i].status)에서 그대로 가져와 서술, 별개로 지어내는
@@ -1206,8 +1248,11 @@ function mbtiSajuFusionText(res){
 /* ══════════ 렌더 ══════════ */
 const TABS=['진단','궁합','보관함'];
 const tabsEl=document.getElementById('tabs'), mainEl=document.getElementById('main');
+// HTML에 넣기 전에 < 를 이스케이프한다
 function esc(s){return String(s).replace(/</g,'&lt;');}
+// 오행을 쉬운 말로 풀 때 쓰는 이름
 const ELFEEL={목:'나무',화:'불',토:'땅',금:'쇠',수:'물'};
+// 8유형 카드(유형 이름·별자리 문장·네 칸 설명)를 그린다
 function typeCard(key,opts){
  const T=TYPES[key];opts=opts||{};
  const zoShort=T.zo.split(' (')[0];
@@ -1230,6 +1275,7 @@ function typeCard(key,opts){
  h+='</details></div></div>';
  return h;
 }
+// "나의 사주" 표와 사주가 말하는 연애 성향 카드를 그린다
 function sajuReadCard(sj){
  const D=DAYSTEM[GAN[sj.dayGan]];
  const slots=sibsungSlots(sj);
@@ -1272,6 +1318,7 @@ function sajuReadCard(sj){
  h+='</div>';
  return h;
 }
+// 탭과 현재 단계(인트로·문항·빠른 결과·심화 입력·심화 결과)에 맞는 화면을 그린다
 function render(){
  tabsEl.innerHTML='';
  TABS.forEach((t,i)=>{const b=document.createElement('button');b.className='tab'+(S.tab===i?' on':'');
@@ -1473,6 +1520,7 @@ function renderQuiz(){
    return;
  }
 }
+// 심화 리딩 결과를 TXT 파일로 내려받는다
 function downloadTxt(key,grade,eng){
  const T=TYPES[key];const L=[];
  L.push('══════════════════════');
@@ -1544,6 +1592,7 @@ function compat(a,b){
    B('오래가는 팁','다른 부분은 옳고 그름을 따지기보다, 서로 다른 방식이 있다는 걸 인정하는 대화를 가끔 나눠보면 좋아요.')
  ]];
 }
+// 궁합 탭: 연애 유형 궁합과 사주 궁합을 접고 펼치는 카드로 그린다
 function renderCompat(){
  if(S.cmpAAuto!==false&&ARC.length&&ARC[0].key!==S.cmpA){S.cmpA=ARC[0].key;save();}
  let h='<div class="sec-intro"><b>궁합</b><br>연애 유형 궁합과 사주 궁합을 함께 확인해보세요. (재미로!)</div>';
@@ -1633,6 +1682,7 @@ function renderArc(){
    mainEl.appendChild(el);
  });
 }
+// 보관함에서 고른 기록을 저장 당시 스냅샷 그대로 다시 보여 준다
 function renderArcDetail(r){
  let h='<div class="sec-intro" style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px">'+
  '<span><b>보관함 · 다시보기</b><br>'+new Date(r.ts).toLocaleString('ko-KR')+' 저장</span>'+
@@ -1708,9 +1758,12 @@ if('serviceWorker' in navigator){
   const DISM_KEY='loveTypeInstallDismV1';
   const banner=document.getElementById('installBanner');
   let deferredPrompt=null;
+  // 홈 화면에 설치된 상태인지 / 아이폰·아이패드인지
   function isStandalone(){return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone===true;}
   function isIOS(){return /iphone|ipad|ipod/.test(navigator.userAgent.toLowerCase());}
+  // 배너를 닫고 다시 보이지 않게 기록한다
   function dismiss(){localStorage.setItem(DISM_KEY,'1');banner.classList.remove('show');}
+  // 설치 안내 배너를 띄운다 (안드로이드는 설치 버튼, 아이폰은 공유 메뉴 안내)
   function show(mode){
     if(isStandalone()||localStorage.getItem(DISM_KEY))return;
     banner.innerHTML = mode==='ios'
